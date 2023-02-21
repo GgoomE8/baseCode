@@ -17,17 +17,4 @@ public class DemoApplication {
 		SpringApplication.run(DemoApplication.class, args);
 	}
 
-//	@Bean
-//	public AuditorAware<String> auditorProvider() {
-//		// 람다를 이용
-////		return () -> Optional.of(UUID.randomUUID().toString());
-//
-//		// 익명 클래스를 이용
-//		return new AuditorAware<String>() {
-//			@Override
-//			public Optional<String> getCurrentAuditor() {
-//				return Optional.of(UUID.randomUUID().toString());
-//			}
-//		};
-//	}
 }
