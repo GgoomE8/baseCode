@@ -12,7 +12,7 @@ import java.util.List;
 @Builder
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @AllArgsConstructor(access = AccessLevel.PROTECTED)
-@EntityListeners(AuditingEntityListener.class)
+@Table(indexes = @Index(name = "i_user", columnList = "member_id"))
 public class Member extends BaseTimeEntity {
 
     @Id
@@ -36,9 +36,12 @@ public class Member extends BaseTimeEntity {
     @Enumerated(value = EnumType.STRING)
     private UserRoleEnum role;
 
-    @OneToMany(fetch = FetchType.LAZY, cascade = CascadeType.ALL)
-    @JoinColumn(name = "board_id", insertable = false, updatable = false)
+    @OneToMany(mappedBy = "member", cascade = CascadeType.REMOVE, fetch = FetchType.LAZY)
     private List<Board> boardList;
+
+//    @OneToMany(fetch = FetchType.LAZY) //CaseCade (삭제시 같이 삭제)
+//    @JoinColumn(name = "comment_id", insertable = false, updatable = false)
+//    private List<Comment> comments;
 
     public Member(String username, String password, String email, UserRoleEnum role) {
         this.username = username;

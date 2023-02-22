@@ -43,7 +43,9 @@ public class SecurityConfig {
 
     @Bean
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
-        http.csrf().disable();
+        http.csrf().disable()
+                .headers()
+                .frameOptions().sameOrigin();;
 
         // 기본 설정인 Session 방식은 사용하지 않고 JWT 방식을 사용하기 위한 설정
         http.sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
@@ -55,7 +57,8 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위한 설정
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling().authenticationEntryPoint(BaseAuthenticationEntryPoint);
+                .exceptionHandling().authenticationEntryPoint(BaseAuthenticationEntryPoint)
+                .accessDeniedPage("/forbidden.html");;
         return http.build();
     }
 
