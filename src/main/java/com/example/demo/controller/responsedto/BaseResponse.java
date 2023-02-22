@@ -3,23 +3,18 @@ package com.example.demo.controller.responsedto;
 import java.io.Serializable;
 
 public abstract class BaseResponse<T> implements Serializable {
-    int code;
-    String status;
+    int status;
     T data;
-    String error;
+    String msg;
 
-    public BaseResponse(int code, T data, String status, String error) {
-        this.code = code;
+    public BaseResponse(int status, T data, String msg) {
         this.status = status;
-        this.error = error;
         this.data = data;
+        this.msg = msg;
     }
 
-    public int getCode() {
-        return code;
-    }
 
-    public String getStatus() {
+    public int getStatus() {
         return status;
     }
 
@@ -27,7 +22,7 @@ public abstract class BaseResponse<T> implements Serializable {
         return data;
     }
 
-    public String getError() {
-        return error;
+    public String getMsg() {
+        return msg;
     }
 }

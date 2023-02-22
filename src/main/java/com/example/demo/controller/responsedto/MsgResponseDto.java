@@ -1,7 +1,7 @@
 package com.example.demo.controller.responsedto;
 
 import com.example.demo.exception.CustomException;
-import com.example.demo.exception.SuccessCode;
+import com.example.demo.enums.SuccessCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import org.springframework.http.HttpStatus;

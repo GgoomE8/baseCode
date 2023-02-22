@@ -2,12 +2,14 @@ package com.example.demo.controller;
 
 import com.example.demo.controller.requestdto.BoardRequestDto;
 import com.example.demo.controller.responsedto.BoardResponseDto;
+import com.example.demo.security.UserDetailsImpl;
 import com.example.demo.service.BoardService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import org.springframework.web.bind.annotation.*;
-import org.springframework.web.servlet.ModelAndView;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 @RestController
 @RequestMapping("/api/board")
@@ -17,13 +19,13 @@ public class BoardController {
     private final BoardService boardService;
 
 
-    @PostMapping("/")
-    public BoardResponseDto createBoard(@RequestBody BoardRequestDto requestDto, HttpServletRequest request) {
-        return boardService.createBoard(requestDto, request);
+    @PostMapping("")
+    public BoardResponseDto createBoard(@RequestBody BoardRequestDto requestDto, @AuthenticationPrincipal UserDetailsImpl userDetails) {
+        return boardService.createBoard(requestDto, userDetails.getUser());
     }
 
-    @GetMapping("/")
-    public BoardResponseDto getBoardList() {
+    @GetMapping("")
+    public List<BoardResponseDto> getBoardList() {
         return boardService.getBoardList();
     }
 

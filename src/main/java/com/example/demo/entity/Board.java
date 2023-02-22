@@ -32,6 +32,8 @@ public class Board extends BaseEntity  {
     private Member member;
 
     public Board(BoardRequestDto requestDto, Member member) {
-
+        this.title = requestDto.getTitle();
+        this.content = requestDto.getContent();
+        this.member = member;
     }
 }

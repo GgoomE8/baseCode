@@ -1,5 +1,6 @@
 package com.example.demo.config;
 
+import com.example.demo.security.BaseAuthenticationEntryPoint;
 import com.example.demo.security.jwt.JwtAuthFilter;
 import com.example.demo.security.jwt.JwtUtil;
 import lombok.RequiredArgsConstructor;
@@ -25,6 +26,7 @@ public class SecurityConfig {
 
     private final JwtUtil jwtUtil;
 
+    private final BaseAuthenticationEntryPoint BaseAuthenticationEntryPoint;
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -53,8 +55,7 @@ public class SecurityConfig {
                 .anyRequest().authenticated()
                 // JWT 인증/인가를 사용하기 위한 설정
                 .and().addFilterBefore(new JwtAuthFilter(jwtUtil), UsernamePasswordAuthenticationFilter.class)
-                .exceptionHandling().authenticationEntryPoint((request, response, authException)
-                        -> response.sendRedirect("/forbidden"));
+                .exceptionHandling().authenticationEntryPoint(BaseAuthenticationEntryPoint);
         return http.build();
     }
 

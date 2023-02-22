@@ -26,31 +26,11 @@ public class BoardService {
 //    private final JwtUtil jwtUtil;
 
     @Transactional
-    public BoardResponseDto createBoard(BoardRequestDto requestDto, HttpServletRequest request) {
-//        String token = jwtUtil.resolveToken(request);
-//        Claims claims;
+    public BoardResponseDto createBoard(BoardRequestDto requestDto, Member member) {
+        // 요청받은 DTO 로 DB에 저장할 객체 만들기
+        Board board = boardRepository.saveAndFlush(new Board(requestDto, member));
 
-        // 토큰이 있는 경우에만 게시판 추가
-//        if (token != null) {
-//            if (jwtUtil.validateToken(token)) {
-//                // 토큰에서 사용자 정보 가져옴
-//                claims = jwtUtil.getUserInfoFromToken(token);
-//            } else {
-//                throw new IllegalArgumentException("Token Error");
-//            }
-
-            // 토큰에서 가져온 사용자 정보를 사용하여 DB 조회
-            Member member = memberRepository.findById(1L).orElseThrow(
-                    () -> new IllegalArgumentException("사용자가 존재하지 않습니다.")
-            );
-
-            // 요청받은 DTO 로 DB에 저장할 객체 만들기
-            Board board = boardRepository.saveAndFlush(new Board(requestDto, member));
-
-            return BoardResponseDto.from(board);
-//        } else {
-//            return null;
-//        }
+        return BoardResponseDto.from(board);
     }
 
 
@@ -89,8 +69,9 @@ public class BoardService {
     }
 
 
-    public BoardResponseDto getBoardList() {
-        return null;
+    public List<BoardResponseDto> getBoardList() {
+        List<Board> list = boardRepository.findAllByOrderByIdDesc();
+        return BoardResponseDto.from(list);
     }
     public BoardResponseDto getBoard(Long id) {
         return null;
